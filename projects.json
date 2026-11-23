@@ -1,0 +1,29 @@
+[
+  {
+    "id": "family-dashboard",
+    "name": "Family TV Dashboard",
+    "description": "Google Photos slideshow with personal & Hawkeye/Cyclone sports calendars.",
+    "homepage": "https://family-dashboard-three-xi.vercel.app",
+    "repoUrl": "https://github.com/kfs80",
+    "badge": "Private",
+    "updatedAt": "2026-11-23"
+  },
+  {
+    "id": "family-trivia",
+    "name": "Family Trivia",
+    "description": "Multiplayer family trivia game with TV display & mobile phone controllers.",
+    "homepage": "https://family-trivia.vercel.app",
+    "repoUrl": "https://github.com/kfs80/family-trivia",
+    "badge": "Vercel",
+    "updatedAt": "2026-11-23"
+  },
+  {
+    "id": "party-games-iowa",
+    "name": "Party Games Iowa",
+    "description": "Mobile yard game rentals and hosted party packages.",
+    "homepage": "https://www.partygamesiowa.com",
+    "repoUrl": "",
+    "badge": "Business",
+    "updatedAt": "2026-11-23"
+  }
+]
