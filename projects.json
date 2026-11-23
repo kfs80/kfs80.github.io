@@ -25,5 +25,14 @@
     "repoUrl": "",
     "badge": "Business",
     "updatedAt": "2026-11-23"
+  },
+  {
+    "id": "proj-1795453048693",
+    "name": "Family Trivia - Admin",
+    "description": "Generate Rounds.  Generate Games.  Launch",
+    "homepage": "https://family-trivia-seven.vercel.app/admin",
+    "repoUrl": "",
+    "badge": "Vercel",
+    "updatedAt": "2026-11-23"
   }
 ]
