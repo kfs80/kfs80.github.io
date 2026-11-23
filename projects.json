@@ -10,9 +10,9 @@
   },
   {
     "id": "family-trivia",
-    "name": "Family Trivia",
+    "name": "Family Trivia - TV Screen",
     "description": "Multiplayer family trivia game with TV display & mobile phone controllers.",
-    "homepage": "https://www.espn.com",
+    "homepage": "https://family-trivia-seven.vercel.app/tv",
     "repoUrl": "https://github.com/kfs80/family-trivia",
     "badge": "Vercel",
     "updatedAt": "2026-11-23"
