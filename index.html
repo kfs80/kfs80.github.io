@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kfs80 | App & Project Hub</title>
+  <title>Schneider Project Hub</title>
   <style>
     :root {
       --bg: #0f172a;
@@ -13,16 +13,13 @@
       --text: #f8fafc;
       --muted: #94a3b8;
       --accent: #38bdf8;
+      --danger: #ef4444;
       --vercel: #ffffff;
       --gh-pages: #22c55e;
       --private: #f59e0b;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -32,10 +29,7 @@
       padding: 2rem 1rem 4rem;
     }
 
-    .container {
-      max-width: 960px;
-      margin: 0 auto;
-    }
+    .container { max-width: 960px; margin: 0 auto; }
 
     header {
       display: flex;
@@ -46,62 +40,45 @@
       border-bottom: 1px solid var(--border);
     }
 
-    @media (min-width: 640px) {
-      header {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-      }
+    @media (min-width: 680px) {
+      header { flex-direction: row; align-items: center; justify-content: space-between; }
     }
 
-    h1 {
-      font-size: 1.65rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
+    h1 { font-size: 1.65rem; font-weight: 700; letter-spacing: -0.02em; }
+    .subtitle { color: var(--muted); font-size: 0.9rem; }
 
-    .subtitle {
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
+    .controls { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
 
-    .controls {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-    }
-
-    input[type="search"] {
+    input[type="search"], input[type="text"], input[type="url"], select, textarea {
       background: var(--surface);
       border: 1px solid var(--border);
       color: var(--text);
-      padding: 0.55rem 0.9rem;
+      padding: 0.55rem 0.85rem;
       border-radius: 8px;
-      font-size: 0.95rem;
-      width: 100%;
-      min-width: 220px;
+      font-size: 0.92rem;
       outline: none;
+      font-family: inherit;
     }
 
-    input[type="search"]:focus {
-      border-color: var(--accent);
-    }
+    input:focus, select:focus, textarea:focus { border-color: var(--accent); }
 
-    button.refresh-btn {
+    button {
       background: var(--surface);
       border: 1px solid var(--border);
-      color: var(--muted);
-      padding: 0.55rem 0.75rem;
+      color: var(--text);
+      padding: 0.55rem 0.85rem;
       border-radius: 8px;
       cursor: pointer;
       font-size: 0.85rem;
+      font-weight: 500;
       transition: all 0.15s ease;
     }
 
-    button.refresh-btn:hover {
-      color: var(--text);
-      border-color: var(--accent);
-    }
+    button:hover { border-color: var(--accent); }
+    button.primary { background: var(--accent); color: #0f172a; border-color: var(--accent); font-weight: 600; }
+    button.primary:hover { opacity: 0.9; }
+    button.danger { color: var(--danger); border-color: rgba(239,68,68,0.4); }
+    button.danger:hover { background: rgba(239,68,68,0.12); border-color: var(--danger); }
 
     .grid {
       display: grid;
@@ -136,11 +113,7 @@
       margin-bottom: 0.5rem;
     }
 
-    .card-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--text);
-    }
+    .card-title { font-size: 1.1rem; font-weight: 600; }
 
     .badge {
       font-size: 0.7rem;
@@ -177,20 +150,60 @@
       border-top: 1px solid rgba(51, 65, 85, 0.6);
     }
 
-    .repo-link {
-      color: var(--accent);
-      text-decoration: none;
+    .card-actions { display: flex; gap: 0.5rem; align-items: center; }
+    .repo-link { color: var(--accent); text-decoration: none; }
+    .repo-link:hover { text-decoration: underline; }
+
+    .mini-btn {
+      padding: 0.2rem 0.45rem;
+      font-size: 0.72rem;
+      border-radius: 6px;
     }
 
-    .repo-link:hover {
-      text-decoration: underline;
+    .status { text-align: center; color: var(--muted); padding: 3rem 1rem; font-size: 0.95rem; }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.75);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 50;
     }
 
-    .status {
-      text-align: center;
-      color: var(--muted);
-      padding: 3rem 1rem;
-      font-size: 0.95rem;
+    .modal-backdrop.open { display: flex; }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      width: 100%;
+      max-width: 440px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .modal h2 { font-size: 1.2rem; }
+    .field { display: flex; flex-direction: column; gap: 0.35rem; }
+    .field label { font-size: 0.82rem; color: var(--muted); }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 0.5rem; }
+    .toast {
+      position: fixed;
+      bottom: 1.25rem;
+      right: 1.25rem;
+      background: #1e293b;
+      border: 1px solid var(--accent);
+      color: var(--text);
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      display: none;
+      z-index: 60;
     }
   </style>
 </head>
@@ -198,12 +211,14 @@
   <div class="container">
     <header>
       <div>
-        <h1>kfs80 Project Hub</h1>
-        <p class="subtitle">Live Vercel &amp; GitHub Pages deployments</p>
+        <h1>Schneider Project Hub</h1>
+        <p class="subtitle">Web apps, trackers &amp; dashboards</p>
       </div>
       <div class="controls">
         <input type="search" id="search" placeholder="Filter apps..." autocomplete="off" />
-        <button class="refresh-btn" id="refreshBtn" title="Force refresh from GitHub">↻ Sync</button>
+        <button id="syncBtn" title="Refresh from GitHub">↻ Sync</button>
+        <button id="addBtn" class="primary" style="display:none;">+ Add Link</button>
+        <button id="editToggleBtn">🔒 Edit</button>
       </div>
     </header>
 
@@ -211,46 +226,97 @@
     <div id="grid" class="grid"></div>
   </div>
 
+  <!-- Add / Edit Project Modal -->
+  <div class="modal-backdrop" id="projectModal">
+    <div class="modal">
+      <h2 id="modalTitle">Add Custom Project</h2>
+      <input type="hidden" id="projId" />
+      <div class="field">
+        <label>Project Name *</label>
+        <input type="text" id="projName" placeholder="e.g., Family Trivia" />
+      </div>
+      <div class="field">
+        <label>Live URL *</label>
+        <input type="url" id="projUrl" placeholder="https://..." />
+      </div>
+      <div class="field">
+        <label>Description</label>
+        <textarea id="projDesc" rows="2" placeholder="Short summary of the app..."></textarea>
+      </div>
+      <div class="field">
+        <label>Badge Label</label>
+        <select id="projBadge">
+          <option value="Vercel">Vercel</option>
+          <option value="Private">Private</option>
+          <option value="Business">Business</option>
+          <option value="Live App">Live App</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>GitHub Repo URL (optional)</label>
+        <input type="url" id="projRepo" placeholder="https://github.com/kfs80/..." />
+      </div>
+      <div class="modal-actions">
+        <button id="cancelModalBtn">Cancel</button>
+        <button id="saveProjectBtn" class="primary">Save to GitHub</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
   <script>
     const USERNAME = "kfs80";
-    const CACHE_KEY = "kfs80_hub_repos_v1";
-    const CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutes
+    const HUB_REPO = "kfs80.github.io";
+    const JSON_PATH = "projects.json";
+    const CACHE_KEY = "kfs80_hub_cache_v2";
+    const TOKEN_KEY = "kfs80_gh_pat";
+    const CACHE_TTL_MS = 10 * 60 * 1000;
 
-    // Add any private repos or standalone Vercel URLs here
-    const PRIVATE_PROJECTS = [
-      {
-        name: "Family TV Dashboard",
-        description: "Google Photos slideshow with personal & Hawkeye/Cyclone sports calendars.",
-        homepage: "https://family-dashboard-three-xi.vercel.app",
-        repoUrl: "https://github.com/kfs80",
-        updatedAt: new Date().toISOString(),
-        isPrivate: true
-      }
-    ];
+    let customProjects = [];
+    let publicRepos = [];
+    let editMode = false;
 
     const gridEl = document.getElementById("grid");
     const statusEl = document.getElementById("status");
     const searchEl = document.getElementById("search");
-    const refreshBtn = document.getElementById("refreshBtn");
+    const editToggleBtn = document.getElementById("editToggleBtn");
+    const addBtn = document.getElementById("addBtn");
+    const modalEl = document.getElementById("projectModal");
+    const toastEl = document.getElementById("toast");
 
-    let allProjects = [];
-
-    function formatTitle(slug) {
-      return slug
-        .replace(/[-_]+/g, " ")
-        .replace(/\b\w/g, (c) => c.toUpperCase());
+    function showToast(msg) {
+      toastEl.textContent = msg;
+      toastEl.style.display = "block";
+      setTimeout(() => { toastEl.style.display = "none"; }, 3500);
     }
 
-    function getHostBadge(url, isPrivate) {
-      if (isPrivate) return { label: "Private", cls: "private" };
-      if (url.includes("vercel.app")) return { label: "Vercel", cls: "vercel" };
-      if (url.includes("github.io")) return { label: "GitHub Pages", cls: "gh" };
-      return { label: "Live App", cls: "gh" };
+    function formatTitle(slug) {
+      return slug.replace(/[-_]+/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+    }
+
+    function getBadgeClass(label) {
+      const l = (label || "").toLowerCase();
+      if (l.includes("private") || l.includes("business")) return "private";
+      if (l.includes("vercel")) return "vercel";
+      return "gh";
+    }
+
+    function updateEditUI() {
+      const hasToken = !!localStorage.getItem(TOKEN_KEY);
+      editToggleBtn.textContent = editMode ? "🔓 Done Editing" : "🔒 Edit";
+      addBtn.style.display = editMode && hasToken ? "inline-block" : "none";
+      render(searchEl.value);
     }
 
     function render(filterText = "") {
       const q = filterText.trim().toLowerCase();
-      const filtered = allProjects.filter(
+      const combined = [
+        ...customProjects.map((p) => ({ ...p, isCustom: true })),
+        ...publicRepos.map((p) => ({ ...p, isCustom: false }))
+      ];
+
+      const filtered = combined.filter(
         (p) =>
           p.name.toLowerCase().includes(q) ||
           (p.description && p.description.toLowerCase().includes(q)) ||
@@ -261,20 +327,17 @@
 
       if (filtered.length === 0) {
         statusEl.style.display = "block";
-        statusEl.textContent = q
-          ? `No apps matching "${filterText}".`
-          : "No deployed projects found. Add a Website URL to a repo's About section on GitHub to show it here.";
+        statusEl.textContent = q ? `No apps matching "${filterText}".` : "No projects found.";
         return;
       }
 
       statusEl.style.display = "none";
 
       filtered.forEach((proj) => {
-        const badge = getHostBadge(proj.homepage, proj.isPrivate);
+        const badgeLabel = proj.badge || (proj.homepage.includes("vercel.app") ? "Vercel" : "GitHub Pages");
+        const badgeCls = getBadgeClass(badgeLabel);
         const dateStr = new Date(proj.updatedAt).toLocaleDateString(undefined, {
-          month: "short",
-          day: "numeric",
-          year: "numeric"
+          month: "short", day: "numeric", year: "numeric"
         });
 
         const card = document.createElement("a");
@@ -283,73 +346,212 @@
         card.target = "_blank";
         card.rel = "noopener noreferrer";
 
+        let footerRight = "";
+        if (editMode && proj.isCustom) {
+          footerRight = `
+            <div class="card-actions">
+              <button class="mini-btn" data-edit="${proj.id}">Edit</button>
+              <button class="mini-btn danger" data-del="${proj.id}">Delete</button>
+            </div>
+          `;
+        } else if (proj.repoUrl) {
+          footerRight = `<span class="repo-link" data-repo="${proj.repoUrl}">Source ↗</span>`;
+        }
+
         card.innerHTML = `
           <div>
             <div class="card-top">
               <div class="card-title">${proj.name}</div>
-              <span class="badge ${badge.cls}">${badge.label}</span>
+              <span class="badge ${badgeCls}">${badgeLabel}</span>
             </div>
             <p class="card-desc">${proj.description || "No description provided."}</p>
           </div>
           <div class="card-footer">
             <span>Updated ${dateStr}</span>
-            <span class="repo-link" onclick="event.stopPropagation(); window.open('${proj.repoUrl}', '_blank');">Source ↗</span>
+            ${footerRight}
           </div>
         `;
+
+        card.addEventListener("click", (e) => {
+          const editId = e.target.getAttribute("data-edit");
+          const delId = e.target.getAttribute("data-del");
+          const repoUrl = e.target.getAttribute("data-repo");
+          if (editId || delId || repoUrl) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (repoUrl) window.open(repoUrl, "_blank");
+            if (editId) openEditModal(editId);
+            if (delId) deleteProject(delId);
+          }
+        });
+
         gridEl.appendChild(card);
       });
     }
 
-    async function loadProjects(forceRefresh = false) {
+    async function loadAll(forceRefresh = false) {
       statusEl.style.display = "block";
       statusEl.textContent = "Loading deployments...";
 
       try {
-        let publicRepos = null;
+        // 1. Load custom projects.json directly from repo (bypass CDN cache with timestamp)
+        const jsonRes = await fetch(`./${JSON_PATH}?t=${Date.now()}`);
+        customProjects = jsonRes.ok ? await jsonRes.json() : [];
 
+        // 2. Load public GitHub repos with About -> Website set
+        let cachedRepos = null;
         if (!forceRefresh) {
           const cached = localStorage.getItem(CACHE_KEY);
           if (cached) {
             const parsed = JSON.parse(cached);
-            if (Date.now() - parsed.timestamp < CACHE_TTL_MS) {
-              publicRepos = parsed.data;
-            }
+            if (Date.now() - parsed.timestamp < CACHE_TTL_MS) cachedRepos = parsed.data;
           }
         }
 
-        if (!publicRepos) {
+        if (cachedRepos) {
+          publicRepos = cachedRepos;
+        } else {
           const res = await fetch(`https://api.github.com/users/${USERNAME}/repos?per_page=100&sort=updated`);
-          if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
-          const raw = await res.json();
-
-          publicRepos = raw
-            .filter((r) => !r.fork && r.homepage && r.homepage.trim() !== "" && r.name.toLowerCase() !== `${USERNAME}.github.io`)
-            .map((r) => ({
-              name: formatTitle(r.name),
-              description: r.description,
-              homepage: r.homepage.startsWith("http") ? r.homepage.trim() : `https://${r.homepage.trim()}`,
-              repoUrl: r.html_url,
-              updatedAt: r.pushed_at || r.updated_at,
-              isPrivate: false
-            }));
-
-          localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data: publicRepos }));
+          if (res.ok) {
+            const raw = await res.json();
+            publicRepos = raw
+              .filter((r) => !r.fork && r.homepage && r.homepage.trim() !== "" && r.name.toLowerCase() !== HUB_REPO)
+              .map((r) => ({
+                name: formatTitle(r.name),
+                description: r.description,
+                homepage: r.homepage.startsWith("http") ? r.homepage.trim() : `https://${r.homepage.trim()}`,
+                repoUrl: r.html_url,
+                updatedAt: r.pushed_at || r.updated_at
+              }));
+            localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data: publicRepos }));
+          }
         }
-
-        allProjects = [...PRIVATE_PROJECTS, ...publicRepos];
-        render(searchEl.value);
       } catch (err) {
         console.error(err);
-        allProjects = [...PRIVATE_PROJECTS];
-        render(searchEl.value);
       }
+
+      render(searchEl.value);
     }
 
-    searchEl.addEventListener("input", (e) => render(e.target.value));
-    refreshBtn.addEventListener("click", () => loadProjects(true));
+    async function saveProjectsToGitHub(updatedList) {
+      const token = localStorage.getItem(TOKEN_KEY);
+      if (!token) return alert("Missing GitHub token.");
 
-    
-    loadProjects();
+      showToast("Saving to GitHub...");
+
+      // Fetch current file SHA required by GitHub Contents API
+      const apiUrl = `https://api.github.com/repos/${USERNAME}/${HUB_REPO}/contents/${JSON_PATH}`;
+      let sha = undefined;
+      const getRes = await fetch(apiUrl, {
+        headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" }
+      });
+      if (getRes.ok) {
+        const fileData = await getRes.json();
+        sha = fileData.sha;
+      } else if (getRes.status === 401 || getRes.status === 403) {
+        localStorage.removeItem(TOKEN_KEY);
+        editMode = false;
+        updateEditUI();
+        return alert("Invalid or expired GitHub token. Please click Edit and enter a valid token.");
+      }
+
+      const contentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(updatedList, null, 2))));
+
+      const putRes = await fetch(apiUrl, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/vnd.github+json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: "Update projects.json via Project Hub",
+          content: contentBase64,
+          sha
+        })
+      });
+
+      if (!putRes.ok) {
+        const err = await putRes.json();
+        return alert(`Save failed: ${err.message}`);
+      }
+
+      customProjects = updatedList;
+      render(searchEl.value);
+      showToast("Saved! GitHub Pages will finish deploying in ~30s.");
+    }
+
+    function openEditModal(id = null) {
+      const proj = id ? customProjects.find((p) => p.id === id) : null;
+      document.getElementById("modalTitle").textContent = proj ? "Edit Project" : "Add Custom Project";
+      document.getElementById("projId").value = proj ? proj.id : "";
+      document.getElementById("projName").value = proj ? proj.name : "";
+      document.getElementById("projUrl").value = proj ? proj.homepage : "";
+      document.getElementById("projDesc").value = proj ? proj.description : "";
+      document.getElementById("projBadge").value = proj ? proj.badge : "Vercel";
+      document.getElementById("projRepo").value = proj ? proj.repoUrl : "";
+      modalEl.classList.add("open");
+    }
+
+    async function deleteProject(id) {
+      if (!confirm("Remove this project card?")) return;
+      const updated = customProjects.filter((p) => p.id !== id);
+      await saveProjectsToGitHub(updated);
+    }
+
+    editToggleBtn.addEventListener("click", () => {
+      if (editMode) {
+        editMode = false;
+        updateEditUI();
+        return;
+      }
+      let token = localStorage.getItem(TOKEN_KEY);
+      if (!token) {
+        token = prompt("Enter your GitHub Fine-Grained Token (saved only in this browser):");
+        if (!token || !token.trim()) return;
+        localStorage.setItem(TOKEN_KEY, token.trim());
+      }
+      editMode = true;
+      updateEditUI();
+    });
+
+    addBtn.addEventListener("click", () => openEditModal());
+    document.getElementById("cancelModalBtn").addEventListener("click", () => modalEl.classList.remove("open"));
+
+    document.getElementById("saveProjectBtn").addEventListener("click", async () => {
+      const id = document.getElementById("projId").value || `proj-${Date.now()}`;
+      const name = document.getElementById("projName").value.trim();
+      let homepage = document.getElementById("projUrl").value.trim();
+      const description = document.getElementById("projDesc").value.trim();
+      const badge = document.getElementById("projBadge").value;
+      const repoUrl = document.getElementById("projRepo").value.trim();
+
+      if (!name || !homepage) return alert("Project Name and Live URL are required.");
+      if (!homepage.startsWith("http")) homepage = `https://${homepage}`;
+
+      const entry = {
+        id,
+        name,
+        description,
+        homepage,
+        repoUrl,
+        badge,
+        updatedAt: new Date().toISOString().slice(0, 10)
+      };
+
+      const exists = customProjects.some((p) => p.id === id);
+      const updated = exists
+        ? customProjects.map((p) => (p.id === id ? entry : p))
+        : [...customProjects, entry];
+
+      modalEl.classList.remove("open");
+      await saveProjectsToGitHub(updated);
+    });
+
+    searchEl.addEventListener("input", (e) => render(e.target.value));
+    document.getElementById("syncBtn").addEventListener("click", () => loadAll(true));
+
+    loadAll();
   </script>
 </body>
 </html>
