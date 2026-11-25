@@ -10,12 +10,12 @@
   },
   {
     "id": "family-trivia",
-    "name": "Family Trivia - TV Screen",
+    "name": "Family Trivia - Main Screen",
     "description": "Multiplayer family trivia game with TV display & mobile phone controllers.",
-    "homepage": "https://family-trivia-seven.vercel.app/tv",
+    "homepage": "https://family-trivia-seven.vercel.app",
     "repoUrl": "https://github.com/kfs80/family-trivia",
     "badge": "Vercel",
-    "updatedAt": "2026-11-23"
+    "updatedAt": "2026-11-25"
   },
   {
     "id": "proj-1795453048693",
